@@ -57,6 +57,10 @@ class Provider implements IProvider {
 		return 'comments';
 	}
 
+	public function getName(): string {
+		return $this->l10n->t('Comments');
+	}
+
 	public function search(IUser $user, ISearchQuery $query): SearchResult {
 		return SearchResult::complete(
 			$this->l10n->t('Comments'),

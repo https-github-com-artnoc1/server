@@ -57,6 +57,10 @@ class FilesSearchProvider implements IProvider {
 		return 'files';
 	}
 
+	public function getName(): string {
+		return $this->l10n->t('Files');
+	}
+
 	public function search(IUser $user, ISearchQuery $query): SearchResult {
 		return SearchResult::complete(
 			$this->l10n->t('Files'),
