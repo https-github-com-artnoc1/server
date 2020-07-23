@@ -172,12 +172,16 @@ export default {
 			this.types = await getTypes()
 		},
 		onClose() {
+			this.resetState()
+			this.query = ''
+		},
+
+		resetState() {
 			this.cursors = {}
 			this.limits = {}
 			this.loading = {}
 			this.reached = {}
 			this.results = {}
-			this.query = ''
 		},
 
 		/**
@@ -199,6 +203,9 @@ export default {
 			if (this.query.trim() === '' || this.isShortQuery) {
 				return
 			}
+
+			// reset search if the query changed
+			this.resetState()
 
 			this.typesIDs.forEach(async type => {
 				this.$set(this.loading, type, true)
