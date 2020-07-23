@@ -24,6 +24,7 @@
 
 namespace OCA\DAV\CardDAV;
 
+use OCA\DAV\CardDAV\PhotoCache;
 use OCP\Files\NotFoundException;
 use Sabre\CardDAV\Card;
 use Sabre\DAV\Server;
@@ -103,7 +104,7 @@ class ImageExportPlugin extends ServerPlugin {
 		try {
 			$file = $this->cache->get($addressbook->getResourceId(), $node->getName(), $size, $node);
 			$response->setHeader('Content-Type', $file->getMimeType());
-			$response->setHeader('Content-Disposition', 'attachment; filename="ContactPhoto.png"');
+			$response->setHeader('Content-Disposition', 'attachment; filename="'.$node->getName().'.'.PhotoCache::ALLOWED_CONTENT_TYPES[$file->getMimeType()].'"');
 			$response->setStatus(200);
 
 			$response->setBody($file->getContent());
