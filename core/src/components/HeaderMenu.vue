@@ -57,12 +57,29 @@ export default {
 			type: String,
 			required: true,
 		},
+		open: {
+			type: Boolean,
+			default: false,
+		},
 	},
 
 	data() {
 		return {
-			opened: false,
+			opened: this.open,
 		}
+	},
+
+	watch: {
+		open(newVal) {
+			this.opened = newVal
+			this.$nextTick(() => {
+				if (this.opened) {
+					this.openMenu()
+				} else {
+					this.closeMenu()
+				}
+			})
+		},
 	},
 
 	beforeMount() {
@@ -98,6 +115,7 @@ export default {
 
 			this.opened = false
 			this.$emit('close')
+			this.$emit('update:open', false)
 			emit(`header-menu-${this.id}-close`)
 		},
 
@@ -111,6 +129,7 @@ export default {
 
 			this.opened = true
 			this.$emit('open')
+			this.$emit('update:open', true)
 			emit(`header-menu-${this.id}-open`)
 		},
 	},

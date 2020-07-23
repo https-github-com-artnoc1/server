@@ -22,6 +22,7 @@
 <template>
 	<HeaderMenu id="unified-search"
 		class="unified-search"
+		:open.sync="open"
 		@open="onOpen"
 		@close="onClose">
 		<!-- Header icon -->
@@ -118,6 +119,8 @@ export default {
 
 			defaultLimit,
 			minSearchLength,
+
+			open: false,
 		}
 	},
 
@@ -163,6 +166,18 @@ export default {
 	async created() {
 		this.types = await getTypes()
 		console.debug('Unified Search initialized with the following providers', this.types)
+	},
+
+	mounted() {
+		document.addEventListener('keydown', (event) => {
+			// if not already opened, allows us to trigger default browser on second keydown
+			if (event.ctrlKey && event.key === 'f' && !this.open) {
+				event.preventDefault()
+				this.open = true
+				this.focusInput()
+			}
+		})
+
 	},
 
 	methods: {
