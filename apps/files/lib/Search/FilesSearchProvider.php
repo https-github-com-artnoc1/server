@@ -68,7 +68,8 @@ class FilesSearchProvider implements IProvider {
 				return new FilesSearchResultEntry(
 					$this->urlGenerator->linkToRoute('core.Preview.getPreviewByFileId', ['x' => 32, 'y' => 32, 'fileId' => $result->id]),
 					$result->name,
-					$result->path,
+					// Do not show the location if the file is in root
+					$result->path !== '/' . $result->name ? $result->path : '',
 					$result->link
 				);
 			}, $this->fileSearch->search($query->getTerm()))
